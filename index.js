@@ -36,6 +36,17 @@ function handleMode() {
       });
       break;
 
+      case "setex":
+      // --- this will expired in 60 seconds
+      client.setex(keyTest,60, new Date().toString(), function (err, reply) {
+        if (err) {
+          throw err;
+        }
+
+        console.log(reply);
+      });
+      break;
+
     case "del":
       client.del(keyTest, function (err, reply) {
         if (err) {
