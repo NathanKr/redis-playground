@@ -1,4 +1,13 @@
 console.log("app is loading ...");
+
+class RedisQueue{
+  constructor(redisClient , numElement , queueId){
+      this.redisClient = redisClient;
+      this.numElement = numElement;
+      this.queueId = queueId;
+  }
+}
+
 const redis = require("redis"),
   keyTest = "test";
 
@@ -11,6 +20,8 @@ client.on("error", function (error) {
 client.on("connect", function () {
   console.log("Connected to Redis");
 });
+
+let oRedisQueue = new RedisQueue(client,3,"xyz123");
 
 function handleMode() {
   const mode = process.argv[2];
@@ -36,9 +47,9 @@ function handleMode() {
       });
       break;
 
-      case "setex":
+    case "setex":
       // --- this will expired in 60 seconds
-      client.setex(keyTest,60, new Date().toString(), function (err, reply) {
+      client.setex(keyTest, 60, new Date().toString(), function (err, reply) {
         if (err) {
           throw err;
         }
@@ -57,7 +68,7 @@ function handleMode() {
       });
       break;
 
-      case "exist":
+    case "exist":
       client.exists(keyTest, function (err, reply) {
         if (err) {
           throw err;
@@ -67,6 +78,7 @@ function handleMode() {
       });
       break;
 
+    
     default:
       throw `unexpected mode ${mode}`;
   }
