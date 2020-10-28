@@ -23,7 +23,7 @@ class RedisList {
     });
   }
 
-  getQueue (stringValue){
+  getQueue (){
     return new Promise((resolve, reject) => {
       client.lrange(this.key,0,-1,(err, result) => {
         if (err) {
